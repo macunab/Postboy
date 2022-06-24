@@ -1,0 +1,25 @@
+
+<div class="flex main">
+    <div class="collections flex">
+        COLLECTIONS
+    </div>
+    <p-splitter class="flex-1 " >
+        <ng-template pTemplate>
+
+            <div class="grid p-fluid">
+                <div class="col-12 md:col-4">
+                    <div class="p-inputgroup">
+                        <p-dropdown [options]="typeRequest" [(ngModel)]="selectedTypeRequest"></p-dropdown>
+                        <input type="text" pInputText placeholder="Url">
+                        <button type="button" pButton pRipple label="Send"></button>
+                    </div>
+                </div>
+            </div>
+
+        </ng-template>
+        <ng-template pTemplate>
+            Panel 2
+        </ng-template>
+    </p-splitter>
+    
+</div>
