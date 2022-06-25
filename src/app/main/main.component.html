@@ -1,11 +1,9 @@
 
 
-
-
     <div class="grid p-fluid">
         <div class="col-12 md:col-7">
             <div class="p-inputgroup top">
-                <p-dropdown class="p-inputgroup-addon" [options]="typeRequest" [(ngModel)]="selectedTypeRequest"></p-dropdown>
+                <p-dropdown class="p-inputgroup-addon flex-grow-0" [options]="typeRequest" [(ngModel)]="selectedTypeRequest"></p-dropdown>
                 <input type="text" pInputText placeholder="URL">
                 <button type="button" pButton pRipple label="Send"></button>
             </div>
