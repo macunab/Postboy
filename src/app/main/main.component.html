@@ -28,6 +28,14 @@
                     <ng-template pTemplate = "header">
                         <span>Body</span>
                     </ng-template>
+                    <ngx-codemirror
+                        [(ngModel)]="content"
+                        [options]="{
+                            lineNumbers: true,
+                            theme: 'material',
+                            mode: 'lang-json'
+                        }"
+                    ></ngx-codemirror>
                 </p-tabPanel>
             </p-tabView>
         </div>

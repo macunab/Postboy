@@ -28,6 +28,7 @@ export class MainComponent implements OnInit {
 
   typeRequest: string[] = ['POST','GET', 'PUT', 'PATH', 'DELETE'];
   selectedTypeRequest: string = '';
+  content: string = `function(index) {}`;
 
   constructor() { }
 
