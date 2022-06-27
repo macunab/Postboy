@@ -28,11 +28,6 @@
                     <ng-template pTemplate = "header">
                         <span>Body</span>
                     </ng-template>
-                    <ngx-codemirror #codemirror
-                        [options]="codeMirrorOptions"
-                        [(ngModel)]="data"
-                        (ngModelChange)="setEditorContent($event)">
-                    </ngx-codemirror>
                 </p-tabPanel>
             </p-tabView>
         </div>
