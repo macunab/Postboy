@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { CodeModel } from '@ngstack/code-editor';
+
 
 @Component({
   selector: 'app-main',
@@ -6,38 +8,46 @@ import { Component, OnInit } from '@angular/core';
   styles: [
   ]
 })
-export class MainComponent implements OnInit {
-
-  codeMirrorOptions: any = {
-    theme: 'idea',
-    mode: 'application/ld+json',
-    lineNumbers: true,
-    lineWrapping: true,
-    foldGutter: true,
-    gutters: ['CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'CodeMirror-lint-markers'],
-    autoCloseBrackets: true,
-    matchBrackets: true,
-    lint: true
-  };
-  data = '';
-  json = {
-    "title": "Type",
-    "description": "A type of product",
-    "type": "object"
-  };
+export class MainComponent implements OnInit  {
 
   typeRequest: string[] = ['POST','GET', 'PUT', 'PATH', 'DELETE'];
   selectedTypeRequest: string = '';
-  content: string = `function(index) {}`;
+  url: string = '';
+  theme = 'vs-dark';
+  dependencies: string[] = [
+    '@types/node',
+    '@ngstack/translate', 
+    '@ngstack/code-editor'
+  ];
+  codeModel: CodeModel = {
+    language: 'json',
+    uri: 'main.json',
+    value: '{ "test": true }',
+    dependencies: [
+      '@types/node',
+      '@ngstack/translate', 
+      '@ngstack/code-editor'
+    ]
+  };
 
-  constructor() { }
+  options = {
+    lineNumbers: true,
+    minimap: {
+      enabled: false
+    }
+  };
 
-  ngOnInit(): void {
-    this.data = JSON.stringify(this.json, null, ' ');
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  onCodeChanged(value: any) {
+    console.log('CODE', value);
   }
 
-  setEditorContent(event: any) {
-    console.log(event);
+  sendRequest() {
+    console.log( `bodyContent:, RequestType: ${this.selectedTypeRequest}, 
+      URL: ${this.url}` );
   }
 
 }

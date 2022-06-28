@@ -1,12 +1,15 @@
 
 
-    <div class="grid p-fluid">
+   <!-- <div class="grid p-fluid">
         <div class="col-12 md:col-7">
-            <p-dropdown class="" [options]="typeRequest" [(ngModel)]="selectedTypeRequest"></p-dropdown>
-            <div class="p-inputgroup">
-                <input type="text" pInputText placeholder="URL">
-                <button type="button" pButton pRipple label="Send"></button>
+            <div class="flex">
+                <p-dropdown class="flex-grow-0" [options]="typeRequest" [(ngModel)]="selectedTypeRequest"></p-dropdown>
+                <div class="flex-1 p-inputgroup">
+                    <input type="text" [(ngModel)]="url" pInputText placeholder="URL">
+                    <button type="button" pButton pRipple label="Send" (click)="sendRequest()"></button>
+                </div>
             </div>
+        
             <p-tabView styleClass="tabview-custom">
                 <p-tabPanel>
                     <ng-template pTemplate = "header">
@@ -28,22 +31,20 @@
                     <ng-template pTemplate = "header">
                         <span>Body</span>
                     </ng-template>
-                    <ngx-codemirror
-                        [(ngModel)]="content"
-                        [options]="{
-                            lineNumbers: true,
-                            theme: 'material',
-                            mode: 'lang-json'
-                        }"
-                    ></ngx-codemirror>
+                   
                 </p-tabPanel>
             </p-tabView>
+            <ngs-code-editor
+            [theme]="theme"
+            [codeModel]="codeModel"
+            [options]="options"
+            (valueChanged)="onCodeChanged($event)">
+        </ngs-code-editor>
         </div>
 
         <div class="col-12 md:col-5">
             <div class="p-inputgroup top">
                 RESPONSE PANEL
-
             </div>
             <p-tabView styleClass="tabview-custom">
                 <p-tabPanel>
@@ -88,5 +89,83 @@
                 </p-tabPanel>
             </p-tabView>
         </div>
-</div>
+</div>-->
+<h1>PostBoy App</h1>
+    <div class="container-fluid">
+        <div class="row g-0 main-content">
+            <div class="col-md-6 col-12 border bg-light">
+                REQUEST
+                <div class="input-group mb-3 p-1">
+                    <select class="form-select flex-grow-0 w-auto" aria-label="Default select example">
+                        <option value="POST">POST</option>
+                        <option value="GET">GET</option>
+                        <option value="PUT">PUT</option>
+                        <option value="PATH">PATH</option>
+                        <option value="DELETE">DELETE</option>
+                      </select>
+                    <input type="text" class="form-control" placeholder="https://www.apiurl.com/save" aria-label="Username" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-info" type="button" id="button-addon2">Send</button>
+                </div>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="query-tab" data-bs-toggle="tab" role="tab" aria-controls="home"
+                        aria-selected="true" aria-current="page" href="#query-params">Query</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="headers-response-tab" data-bs-toggle="tab" role="tab" 
+                        aria-control="headers-response" aria-selected="false" href="#headers-response">Headers</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="body-tab" data-bs-toggle="tab" role="tab"
+                        aria-control="body" aria-selected="false" href="#body">Body</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                  <div class="tab-pane fade show active" aria-labelledby="query-tab" id="query-params">
+                    QUERY PARAMETERS
+                  </div>
+                  <div class="tab-pane fade" aria-labelledby="headers-response-tab" id="headers-response">
+                    HEADERS CONTENT
+                  </div>
+                  <div class="tab-pane fade" aria-labelledby="body-tap" id="body">
+                    BODY
+                    <ngs-code-editor
+                        [theme]="theme"
+                        [codeModel]="codeModel"
+                        [options]="options"
+                        (valueChanged)="onCodeChanged($event)">
+                    </ngs-code-editor>
+                  </div>
+                </div>
+                
+            </div>
+            <div class="col-md-6 col-12 border bg-light">
+                RESPONSE
+                <div class="row mt-3 p-1">
+                    <p class="col-4">Status: <strong class="text-success">200 OK</strong></p>
+                    <p class="col-4">Size: <strong class="text-success">45kb</strong></p>
+                    <p class="col-4">Time: <strong class="text-success">230ms</strong></p>
+                </div>
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="#">Response</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Headers</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Cookies</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Result</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Docs</a>
+                    </li>
+                </ul> 
+               
+            </div>
+        </div>
+    </div>
+
     

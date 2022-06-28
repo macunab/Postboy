@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
+import { CodeEditorModule } from '@ngstack/code-editor';
 
 /** Primeng modules */
 import { DropdownModule } from 'primeng/dropdown';
@@ -23,7 +23,7 @@ import { MainComponent } from './main/main.component';
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
-    CodemirrorModule,
+    CodeEditorModule.forRoot(),
     DropdownModule,
     InputTextModule,
     ButtonModule,
