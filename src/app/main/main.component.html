@@ -96,19 +96,19 @@
             <div class="col-md-6 col-12 border bg-light">
                 REQUEST
                 <div class="input-group mb-3 p-1">
-                    <select class="form-select flex-grow-0 w-auto" aria-label="Default select example">
+                    <select class="form-select flex-grow-0 w-auto" aria-label="Default select example" [(ngModel)]="selectedTypeRequest">
                         <option value="POST">POST</option>
                         <option value="GET">GET</option>
                         <option value="PUT">PUT</option>
                         <option value="PATH">PATH</option>
                         <option value="DELETE">DELETE</option>
                       </select>
-                    <input type="text" class="form-control" placeholder="https://www.apiurl.com/save" aria-label="Username" aria-describedby="button-addon2">
-                    <button class="btn btn-outline-info" type="button" id="button-addon2">Send</button>
+                    <input type="text" class="form-control" [(ngModel)]="url" placeholder="https://www.apiurl.com/save" aria-label="Username" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-info" type="button" id="button-addon2" (click)="sendRequest()">Send</button>
                 </div>
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
-                      <a class="nav-link active" id="query-tab" data-bs-toggle="tab" role="tab" aria-controls="home"
+                      <a class="nav-link" id="query-tab" data-bs-toggle="tab" role="tab" aria-controls="home"
                         aria-selected="true" aria-current="page" href="#query-params">Query</a>
                     </li>
                     <li class="nav-item">
@@ -116,18 +116,19 @@
                         aria-control="headers-response" aria-selected="false" href="#headers-response">Headers</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" id="body-tab" data-bs-toggle="tab" role="tab"
+                      <a class="nav-link active" id="body-tab" data-bs-toggle="tab" role="tab"
                         aria-control="body" aria-selected="false" href="#body">Body</a>
                     </li>
                 </ul>
                 <div class="tab-content">
-                  <div class="tab-pane fade show active" aria-labelledby="query-tab" id="query-params">
+                  <div class="tab-pane fade" aria-labelledby="query-tab" id="query-params">
                     QUERY PARAMETERS
+ 
                   </div>
                   <div class="tab-pane fade" aria-labelledby="headers-response-tab" id="headers-response">
                     HEADERS CONTENT
                   </div>
-                  <div class="tab-pane fade" aria-labelledby="body-tap" id="body">
+                  <div class="tab-pane fade show active" aria-labelledby="body-tap" id="body">
                     BODY
                     <ngs-code-editor
                         [theme]="theme"
@@ -142,9 +143,9 @@
             <div class="col-md-6 col-12 border bg-light">
                 RESPONSE
                 <div class="row mt-3 p-1">
-                    <p class="col-4">Status: <strong class="text-success">200 OK</strong></p>
-                    <p class="col-4">Size: <strong class="text-success">45kb</strong></p>
-                    <p class="col-4">Time: <strong class="text-success">230ms</strong></p>
+                    <p class="col-3">Status: <strong [ngClass]="responseSuccess ? 'text-success' : 'text-danger'">{{responseStatus}}</strong></p>
+                    <p class="col-4">Size: <strong [ngClass]="responseSuccess ? 'text-success' : 'text-danger'">{{responseSize}}</strong></p>
+                    <p class="col-5">Time: <strong [ngClass]="responseSuccess ? 'text-success' : 'text-danger'">{{responseTime}}</strong></p>
                 </div>
                 <ul class="nav nav-tabs">
                     <li class="nav-item">
