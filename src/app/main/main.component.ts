@@ -35,6 +35,7 @@ export class MainComponent implements OnInit  {
   responseSize: string = '';
   responseTime: string = '';
   responseSuccess: boolean = false;
+  loading: boolean = false;
   
   bodyValue: string = '';
   bodyJson: any = undefined;
@@ -68,7 +69,7 @@ export class MainComponent implements OnInit  {
           console.log(error);
         }
       } */
-      console.time('timer:');
+      this.loading = true;
       const startTime = window.performance.now();
       fetch(this.url, {
         method: this.selectedTypeRequest
@@ -90,8 +91,8 @@ export class MainComponent implements OnInit  {
           this.responseSuccess = false;
         })
         .then( res => {
+          this.loading = false;
           console.log(res);
-          console.timeEnd('timer:');
         });
         
   }
