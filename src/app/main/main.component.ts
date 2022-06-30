@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CodeModel } from '@ngstack/code-editor';
+import { Pair } from '../interface/interface';
 
 
 @Component({
@@ -13,7 +14,7 @@ export class MainComponent implements OnInit  {
   typeRequest: string[] = ['POST','GET', 'PUT', 'PATH', 'DELETE'];
   selectedTypeRequest: string = 'POST';
   url: string = '';
-  theme = 'vs-dark';
+  theme = 'vs';
   codeModel: CodeModel = {
     language: 'json',
     uri: 'main.json',
@@ -40,14 +41,32 @@ export class MainComponent implements OnInit  {
   bodyValue: string = '';
   bodyJson: any = undefined;
 
+  headerList: Pair[] = [{'key': 'Accept', 'value': '*/*'}];
+
   constructor() {}
 
   ngOnInit(): void {}
 
   onCodeChanged(value: any) {
-    console.log('CODE', value);
     this.bodyValue = value;
   }
+
+  addHeader() {
+    this.headerList.push({'key':'','value':''});
+  }
+
+  removeHeader(index: number) {
+    console.log('INDICE:' + index);
+    this.headerList.splice(index, 1);
+  }
+
+  arrayToJson(array: Pair[]) {
+    const obj = array.reduce((acc, { key, value}) => ({ ...acc, [key]: value}), {});
+    const json = JSON.stringify(obj);
+    console.log(json);
+  }
+
+
 
   sendRequest() {
     /*console.log( `bodyJSON: ${ JSON.parse(this.bodyValue)}, RequestType: ${this.selectedTypeRequest}, 
@@ -69,7 +88,9 @@ export class MainComponent implements OnInit  {
           console.log(error);
         }
       } */
-      this.loading = true;
+
+
+      /*this.loading = true;
       const startTime = window.performance.now();
       fetch(this.url, {
         method: this.selectedTypeRequest
@@ -93,7 +114,9 @@ export class MainComponent implements OnInit  {
         .then( res => {
           this.loading = false;
           console.log(res);
-        });
+        });*/
+        console.log(this.headerList);
+        this.arrayToJson(this.headerList);
         
   }
 
