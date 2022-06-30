@@ -42,6 +42,7 @@ export class MainComponent implements OnInit  {
   bodyJson: any = undefined;
 
   headerList: Pair[] = [{'key': 'Accept', 'value': '*/*'}];
+  queryParameters: Pair[] = [];
 
   constructor() {}
 
@@ -51,21 +52,34 @@ export class MainComponent implements OnInit  {
     this.bodyValue = value;
   }
 
-  addHeader() {
-    this.headerList.push({'key':'','value':''});
+  addItem(isHeader: boolean) {
+    if(isHeader) {
+      this.headerList.push({'key':'','value':''});
+      return;
+    }
+    this.queryParameters.push({'key':'','value':''});
   }
 
-  removeHeader(index: number) {
-    console.log('INDICE:' + index);
-    this.headerList.splice(index, 1);
+  removeItem(index: number, isHeader: boolean) {
+    if(isHeader) {
+      this.headerList.splice(index, 1);
+      return;
+    }
+    this.queryParameters.splice(index, 1);
   }
 
   arrayToJson(array: Pair[]) {
     const obj = array.reduce((acc, { key, value}) => ({ ...acc, [key]: value}), {});
-    const json = JSON.stringify(obj);
-    console.log(json);
+   // const json = JSON.
+    return obj;
   }
 
+  /**
+   * @array objects to string ?key=value...&...
+   */
+  queryParameterManagement() {
+
+  }
 
 
   sendRequest() {
@@ -90,10 +104,11 @@ export class MainComponent implements OnInit  {
       } */
 
 
-      /*this.loading = true;
+      this.loading = true;
       const startTime = window.performance.now();
       fetch(this.url, {
-        method: this.selectedTypeRequest
+        method: this.selectedTypeRequest,
+        headers: this.arrayToJson(this.headerList)
       })
         .then( res => {
           const endTime = window.performance.now();
@@ -114,9 +129,9 @@ export class MainComponent implements OnInit  {
         .then( res => {
           this.loading = false;
           console.log(res);
-        });*/
-        console.log(this.headerList);
-        this.arrayToJson(this.headerList);
+        });
+       // console.log(this.headerList);
+        
         
   }
 

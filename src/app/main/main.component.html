@@ -121,14 +121,27 @@
                     </li>
                 </ul>
                 <div class="tab-content">
+                    <!-- Request Query Parameters-->
                   <div class="tab-pane fade" aria-labelledby="query-tab" id="query-params">
-                    QUERY PARAMETERS
+                    Query Parameters
+                    <button class="btn btn-outline-success" type="button" (click)="addItem(false)">Nuevo</button>
+                    <div class="row g-1 mt-1" *ngFor="let query of queryParameters; let i = index">
+                        <div class="col">
+                            <input type="text" class="form-control" id="key{{i}}" value="{{query.key}}" [(ngModel)]="query.key">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" id="value{{i}}" value="{{query.value}}" [(ngModel)]="query.value">
+                        </div>
+                        <div class="col">
+                            <button type="button" (click)="removeItem(i,false)" class="btn btn-outline-danger">Remove</button>
+                        </div>
+                    </div>
  
                   </div>
                   <!-- Request Header-->
                   <div class="tab-pane fade" aria-labelledby="headers-response-tab" id="headers-response">
-                    HEADERS CONTENT
-                    <button class="btn btn-outline-success" type="button" (click)="addHeader()">Nuevo</button>
+                    HTTP HEADERS
+                    <button class="btn btn-outline-success" type="button" (click)="addItem(true)">Nuevo</button>
                     <div class="row g-1 mt-1" *ngFor="let header of headerList; let i = index">
                         <div class="col">
                             <input type="text" class="form-control" id="key{{i}}" value="{{header.key}}" [(ngModel)]="header.key">
@@ -137,11 +150,11 @@
                             <input type="text" class="form-control" id="value{{i}}" value="{{header.value}}" [(ngModel)]="header.value">
                         </div>
                         <div class="col">
-                            <button type="button" (click)="removeHeader(i)" class="btn btn-outline-danger">Remove</button>
+                            <button type="button" (click)="removeItem(i, true)" class="btn btn-outline-danger">Remove</button>
                         </div>
                     </div>
                   </div>
-
+                  <!-- Request Body-->
                   <div class="tab-pane fade show active" aria-labelledby="body-tap" id="body">
                     BODY
                     <ngs-code-editor
