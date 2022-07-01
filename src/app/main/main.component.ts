@@ -37,22 +37,34 @@ export class MainComponent implements OnInit  {
   responseSize: string = '';
   responseTime: string = '';
   responseSuccess: boolean = false;
+  responseHeaders: Pair[] = [];
   loading: boolean = false;
   
   bodyValue: string = '';
   bodyJson: any = undefined;
 
-  headerList: Pair[] = [{'key': 'Accept', 'value': '*/*'}];
+  // Content type depend of body type (json/xml/text/form)
+  headerList: Pair[] = [{'key': 'Accept', 'value': '*/*'}, {'key': 'Content-Type', 'value': 'application/json'}];
   queryParameters: Pair[] = [];
 
   constructor() {}
 
   ngOnInit(): void {}
 
+  /**
+   * Code editor change event - Request
+   * @param value 
+   */
   onCodeChanged(value: any) {
     this.bodyValue = value;
+    this.bodyJson = value;
   }
 
+  /**
+   * Add item to headerList or queryParameters
+   * @param isHeader 
+   * @returns 
+   */
   addItem(isHeader: boolean) {
     if(isHeader) {
       this.headerList.push({'key':'','value':''});
@@ -61,6 +73,12 @@ export class MainComponent implements OnInit  {
     this.queryParameters.push({'key':'','value':''});
   }
 
+  /**
+   * Remove item from headerList or queryParameters
+   * @param index 
+   * @param isHeader 
+   * @returns 
+   */
   removeItem(index: number, isHeader: boolean) {
     if(isHeader) {
       this.headerList.splice(index, 1);
@@ -69,6 +87,11 @@ export class MainComponent implements OnInit  {
     this.queryParameters.splice(index, 1);
   }
 
+  /**
+   * Transform array to json - Headers/Query Parameters
+   * @param array 
+   * @returns 
+   */
   arrayToJson(array: Pair[]) {
     const obj = array.reduce((acc, { key, value}) => ({ ...acc, [key]: value}), {});
     return obj;
@@ -91,11 +114,24 @@ export class MainComponent implements OnInit  {
     return urlQuerys;
   }
 
+  /**
+   * Set response info from request
+   * @param time 
+   * @param size 
+   * @param status 
+   * @param success 
+   */
   setResponseInfo(time: string, size: string, status: string, success: boolean) {
     this.responseTime = time;
     this.responseStatus = status;
     this.responseSize = size;
     this.responseSuccess = success;
+  }
+
+  // Investigar como obtener los headers, si no solo muestro los basicos y a la bosta
+  getResponseHeaderList(res: Response) {
+    this.responseHeaders.push({ 'key': 'server', 'value': `${res.headers.get('server')}`});
+    console.log(res.headers.get('server'));
   }
 
   sendRequest() {
@@ -123,22 +159,28 @@ export class MainComponent implements OnInit  {
       const startTime = window.performance.now();
       fetch((this.queryParameters.length ? `${this.url}?${this.queryParameterManagement()}` : this.url), {
         method: this.selectedTypeRequest,
+        mode: 'cors',
+        credentials: 'same-origin',
+        body: (this.selectedTypeRequest == 'POST') ? this.bodyJson : null,
         headers: this.arrayToJson(this.headerList)
       })
         .then( res => {
           const endTime = window.performance.now();
           this.setResponseInfo(`${(endTime - startTime).toFixed(2)} ms`, `${res.headers.get("content-length")} Bytes`, `${res.status}`,
           res.status >= 200 && res.status < 300 ? true : false);
-          console.log(`STATUS CODE: ${res.status}, SIZE ${res.headers.get("content-length")}`);
+          res.headers.forEach((value, key) => {
+            console.log(`KEY: ${key} - VALUE: ${value}`);
+          });
+          this.getResponseHeaderList(res);
           return res.json();
         })
         .catch(error => {
+          console.log(error);
           this.setResponseInfo('0ms', '0 Bytes', 'ERROR', false);
         })
         .then( res => {
           this.loading = false;
           this.responseData = res;
-          console.log(res);
         });
         console.log(this.headerList);
         
