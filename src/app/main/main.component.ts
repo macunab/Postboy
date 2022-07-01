@@ -71,7 +71,6 @@ export class MainComponent implements OnInit  {
 
   arrayToJson(array: Pair[]) {
     const obj = array.reduce((acc, { key, value}) => ({ ...acc, [key]: value}), {});
-   // const json = JSON.
     return obj;
   }
 
@@ -88,6 +87,7 @@ export class MainComponent implements OnInit  {
           urlQuerys += `${item.key}=${item.value}`;
         }}
     })
+    console.log(`${this.url}?${urlQuerys}`);
     return urlQuerys;
   }
 
@@ -137,10 +137,10 @@ export class MainComponent implements OnInit  {
         })
         .then( res => {
           this.loading = false;
-          this.responseData = JSON.stringify(res);
+          this.responseData = res;
           console.log(res);
         });
-       // console.log(this.headerList);
+        console.log(this.headerList);
         
         
   }

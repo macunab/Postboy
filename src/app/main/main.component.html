@@ -185,7 +185,8 @@
                       aria-control="body" aria-selected="false" href="#response">Response</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="#">Headers</a>
+                      <a class="nav-link" aria-current="page" id="response-header-tap" data-bs-toggle="tab" role="tab"
+                      aria-control="body" aria-selected="false" href="#response-header">Headers</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" href="#">Cookies</a>
@@ -198,14 +199,18 @@
                     </li>
                 </ul>
                 <div class="tab-content">
+                    <!-- Response -->
                     <div class="tab-pane fade show active" aria-labelledby="response-tap" id="response">
                         <div class="d-flex justify-content-center" *ngIf="loading">
                             <div class="spinner-border" role="status">
                             </div>
                         </div>
-                        <pre><code>
-                            {{ responseData }}
-                        </code></pre>
+                        <pre><p>{{responseData | json}}</p></pre>
+                 </div>
+
+                 <!-- Response Header -->
+                 <div class="tab-pane fade" aria-labelledby="response-header-tap" id="response-header">
+                    Hola
                  </div>
             </div>
         </div>
