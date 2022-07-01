@@ -32,6 +32,7 @@ export class MainComponent implements OnInit  {
     }
   };
 
+  responseData: string = '';
   responseStatus: string = '';
   responseSize: string = '';
   responseTime: string = '';
@@ -77,12 +78,28 @@ export class MainComponent implements OnInit  {
   /**
    * @array objects to string ?key=value...&...
    */
-  queryParameterManagement() {
-
+  queryParameterManagement(): string {
+    let urlQuerys = '';
+    this.queryParameters.forEach( (item, i) => {
+      if(item.key && item.value) {
+        if(i>0) {
+          urlQuerys += `&${item.key}=${item.value}`;
+        } else {
+          urlQuerys += `${item.key}=${item.value}`;
+        }}
+    })
+    return urlQuerys;
   }
 
+  setResponseInfo(time: string, size: string, status: string, success: boolean) {
+    this.responseTime = time;
+    this.responseStatus = status;
+    this.responseSize = size;
+    this.responseSuccess = success;
+  }
 
   sendRequest() {
+    
     /*console.log( `bodyJSON: ${ JSON.parse(this.bodyValue)}, RequestType: ${this.selectedTypeRequest}, 
       URL: ${this.url}` );
       if(this.url) {
@@ -102,32 +119,25 @@ export class MainComponent implements OnInit  {
           console.log(error);
         }
       } */
-
-
       this.loading = true;
       const startTime = window.performance.now();
-      fetch(this.url, {
+      fetch((this.queryParameters.length ? `${this.url}?${this.queryParameterManagement()}` : this.url), {
         method: this.selectedTypeRequest,
         headers: this.arrayToJson(this.headerList)
       })
         .then( res => {
           const endTime = window.performance.now();
-          this.responseTime = (endTime - startTime).toFixed(2) + 'ms';
-          this.responseStatus = `${res.status}`;
-          this.responseSize = `${res.headers.get("content-length")} Bytes`;
-          this.responseSuccess = res.status >= 200 && res.status < 300 ? true : false;
-
+          this.setResponseInfo(`${(endTime - startTime).toFixed(2)} ms`, `${res.headers.get("content-length")} Bytes`, `${res.status}`,
+          res.status >= 200 && res.status < 300 ? true : false);
           console.log(`STATUS CODE: ${res.status}, SIZE ${res.headers.get("content-length")}`);
           return res.json();
         })
         .catch(error => {
-          this.responseStatus = 'ERROR';
-          this.responseSize = '0B';
-          this.responseTime = '0ms'
-          this.responseSuccess = false;
+          this.setResponseInfo('0ms', '0 Bytes', 'ERROR', false);
         })
         .then( res => {
           this.loading = false;
+          this.responseData = JSON.stringify(res);
           console.log(res);
         });
        // console.log(this.headerList);

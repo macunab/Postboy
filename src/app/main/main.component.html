@@ -124,7 +124,7 @@
                     <!-- Request Query Parameters-->
                   <div class="tab-pane fade" aria-labelledby="query-tab" id="query-params">
                     Query Parameters
-                    <button class="btn btn-outline-success" type="button" (click)="addItem(false)">Nuevo</button>
+                    <button class="btn btn-outline-success" type="button" (click)="addItem(false)">Add</button>
                     <div class="row g-1 mt-1" *ngFor="let query of queryParameters; let i = index">
                         <div class="col">
                             <input type="text" class="form-control" id="key{{i}}" value="{{query.key}}" [(ngModel)]="query.key">
@@ -141,7 +141,7 @@
                   <!-- Request Header-->
                   <div class="tab-pane fade" aria-labelledby="headers-response-tab" id="headers-response">
                     HTTP HEADERS
-                    <button class="btn btn-outline-success" type="button" (click)="addItem(true)">Nuevo</button>
+                    <button class="btn btn-outline-success" type="button" (click)="addItem(true)">Add</button>
                     <div class="row g-1 mt-1" *ngFor="let header of headerList; let i = index">
                         <div class="col">
                             <input type="text" class="form-control" id="key{{i}}" value="{{header.key}}" [(ngModel)]="header.key">
@@ -174,9 +174,9 @@
                         Procesando, espere un momento...
                     </div>
                     <div class="row" *ngIf="!loading">
-                        <p class="col-3">Status: <strong [ngClass]="responseSuccess ? 'text-success' : 'text-danger'">{{responseStatus}}</strong></p>
+                        <p class="col-4">Status: <strong [ngClass]="responseSuccess ? 'text-success' : 'text-danger'">{{responseStatus}}</strong></p>
                         <p class="col-4">Size: <strong [ngClass]="responseSuccess ? 'text-success' : 'text-danger'">{{responseSize}}</strong></p>
-                        <p class="col-5">Time: <strong [ngClass]="responseSuccess ? 'text-success' : 'text-danger'">{{responseTime}}</strong></p>
+                        <p class="col-4">Time: <strong [ngClass]="responseSuccess ? 'text-success' : 'text-danger'">{{responseTime}}</strong></p>
                     </div>
                 </div>
                 <ul class="nav nav-tabs">
@@ -203,6 +203,9 @@
                             <div class="spinner-border" role="status">
                             </div>
                         </div>
+                        <pre><code>
+                            {{ responseData }}
+                        </code></pre>
                  </div>
             </div>
         </div>
