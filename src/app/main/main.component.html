@@ -93,6 +93,7 @@
 <h1>PostBoy App</h1>
     <div class="container-fluid">
         <div class="row g-0 main-content">
+            <!-- REQUEST CONTENT-->
             <div class="col-md-6 col-12 border bg-light">
                 REQUEST
                 <div class="input-group mb-3 p-1">
@@ -156,17 +157,40 @@
                   </div>
                   <!-- Request Body-->
                   <div class="tab-pane fade show active" aria-labelledby="body-tap" id="body">
-                    BODY
-                    <ngs-code-editor
-                        [theme]="theme"
-                        [codeModel]="codeModel"
-                        [options]="options"
-                        (valueChanged)="onCodeChanged($event)">
-                    </ngs-code-editor>
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                          <a class="nav-link active" id="json-tab" data-bs-toggle="tab" role="tab" aria-controls="json"
+                            aria-selected="true" aria-current="page" href="#json" (click)="setBody('json')">JSON</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="xml-tab" data-bs-toggle="tab" role="tab" 
+                            aria-control="xml" aria-selected="false" href="#xml" (click)="setBody('xml')">XML</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" id="form-tab" data-bs-toggle="tab" role="tab"
+                            aria-control="form" aria-selected="false" href="#form" (click)="setBody('form')">Form</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" aria-labelledby="json-tap" id="json">
+                            <ngs-code-editor
+                                [theme]="theme"
+                                [codeModel]="codeModel"
+                                [options]="options"
+                                (valueChanged)="onCodeChanged($event)">
+                            </ngs-code-editor>
+                        </div>
+                        <div class="tab-pane fade" aria-labelledby="xml-tap" id="xml">
+                            XML
+                        </div>
+                        <div class="tab-pane fade" aria-labelledby="form-tap" id="form">
+                            FORM
+                        </div>
+                    </div>
                   </div>
                 </div>
-                
             </div>
+            <!-- RESPONSE CONTENT -->
             <div class="col-md-6 col-12 border bg-light">
                 RESPONSE
                 <div class="row mt-3 p-1">
@@ -192,21 +216,15 @@
                       <a class="nav-link" aria-current="page" id="cookies-tab" data-bs-toggle="tab" role="tab"
                         aria-control="body" aria-selected="false" href="#cookies">Cookies</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Result</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Docs</a>
-                    </li>
                 </ul>
                 <div class="tab-content">
                     <!-- Response -->
                     <div class="tab-pane fade show active" aria-labelledby="response-tap" id="response">
-                        <div class="d-flex justify-content-center" *ngIf="loading">
+                        <pre *ngIf="!loading" class="bg-white"><p>{{responseData | json}}</p></pre>
+                        <div class="mt-5 d-flex justify-content-center" *ngIf="loading">
                             <div class="spinner-border" role="status">
                             </div>
                         </div>
-                        <pre><p>{{responseData | json}}</p></pre>
                  </div>
 
                  <!-- Response Header -->

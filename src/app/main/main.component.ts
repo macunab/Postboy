@@ -31,7 +31,7 @@ export class MainComponent implements OnInit  {
     }
   };
 
-  responseData: string = '';
+  responseData!: string;
   responseStatus: string = '';
   responseSize: string = '';
   responseTime: string = '';
@@ -39,11 +39,11 @@ export class MainComponent implements OnInit  {
   responseHeaders: Pair[] = [];
   loading: boolean = false;
   
-  bodyValue: string = '';
+  bodyValue: string = 'json';
   bodyJson: any = undefined;
 
   // Content type depend of body type (json/xml/text/form)
-  headerList: Pair[] = [{'key': 'Accept', 'value': '*/*'}, {'key': 'Content-Type', 'value': 'application/json'}];
+  headerList: Pair[] = [{'key': 'Accept', 'value': '*/*'}];
   queryParameters: Pair[] = [];
 
   constructor() {}
@@ -55,7 +55,7 @@ export class MainComponent implements OnInit  {
    * @param value 
    */
   onCodeChanged(value: any) {
-    this.bodyValue = value;
+   // this.bodyValue = value;
     this.bodyJson = value;
   }
 
@@ -92,7 +92,11 @@ export class MainComponent implements OnInit  {
    * @returns 
    */
   arrayToJson(array: Pair[]) {
-    const obj = array.reduce((acc, { key, value}) => ({ ...acc, [key]: value}), {});
+    let headers = [ ...array];
+    if(this.selectedTypeRequest == 'POST') {
+      headers.push({'key': 'Content-Type', 'value': 'application/json'});
+    }
+    const obj = headers.reduce((acc, { key, value}) => ({ ...acc, [key]: value}), {});
     return obj;
   }
 
@@ -134,6 +138,11 @@ export class MainComponent implements OnInit  {
     });
   }
 
+  setBody(value: string) {
+    this.bodyValue = value;
+    console.log(this.bodyValue);
+  }
+
   sendRequest() {
     this.responseHeaders = [];
       this.loading = true;
@@ -146,6 +155,7 @@ export class MainComponent implements OnInit  {
         headers: this.arrayToJson(this.headerList)
       })
         .then( res => {
+          //console.log(res.formData.toString);
           const endTime = window.performance.now();
           this.setResponseInfo(`${(endTime - startTime).toFixed(2)} ms`, `${res.headers.get("content-length")} Bytes`, `${res.status}`,
           res.status >= 200 && res.status < 300 ? true : false);
@@ -158,6 +168,7 @@ export class MainComponent implements OnInit  {
         })
         .then( res => {
           this.loading = false;
+          console.log(res);
           this.responseData = res;
         });
   }
