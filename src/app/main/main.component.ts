@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { CodeModel } from '@ngstack/code-editor';
 import { Pair } from '../interface/interface';
 
-
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
@@ -130,37 +129,19 @@ export class MainComponent implements OnInit  {
 
   // Investigar como obtener los headers, si no solo muestro los basicos y a la bosta
   getResponseHeaderList(res: Response) {
-    this.responseHeaders.push({ 'key': 'server', 'value': `${res.headers.get('server')}`});
-    console.log(res.headers.get('server'));
+    res.headers.forEach((value, key) => {
+      this.responseHeaders.push({ 'key': key, 'value': value});
+    });
   }
 
   sendRequest() {
-    
-    /*console.log( `bodyJSON: ${ JSON.parse(this.bodyValue)}, RequestType: ${this.selectedTypeRequest}, 
-      URL: ${this.url}` );
-      if(this.url) {
-        try {
-          console.log(`${this.url} --- ${this.selectedTypeRequest}`)
-          fetch(this.url, { 
-            method: this.selectedTypeRequest,
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          }).then(function(response) {
-            console.log(JSON.stringify(response));
-            return response;
-          }).then(function(data) {
-          })
-        }catch(error) {
-          console.log(error);
-        }
-      } */
+    this.responseHeaders = [];
       this.loading = true;
       const startTime = window.performance.now();
+
       fetch((this.queryParameters.length ? `${this.url}?${this.queryParameterManagement()}` : this.url), {
         method: this.selectedTypeRequest,
         mode: 'cors',
-        credentials: 'same-origin',
         body: (this.selectedTypeRequest == 'POST') ? this.bodyJson : null,
         headers: this.arrayToJson(this.headerList)
       })
@@ -168,9 +149,6 @@ export class MainComponent implements OnInit  {
           const endTime = window.performance.now();
           this.setResponseInfo(`${(endTime - startTime).toFixed(2)} ms`, `${res.headers.get("content-length")} Bytes`, `${res.status}`,
           res.status >= 200 && res.status < 300 ? true : false);
-          res.headers.forEach((value, key) => {
-            console.log(`KEY: ${key} - VALUE: ${value}`);
-          });
           this.getResponseHeaderList(res);
           return res.json();
         })
@@ -182,9 +160,6 @@ export class MainComponent implements OnInit  {
           this.loading = false;
           this.responseData = res;
         });
-        console.log(this.headerList);
-        
-        
   }
 
 }
