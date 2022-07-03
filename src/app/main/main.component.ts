@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CodeModel } from '@ngstack/code-editor';
 import { Pair } from '../interface/interface';
+import { UtilService } from '../service/util.service';
 
 @Component({
   selector: 'app-main',
@@ -47,7 +48,7 @@ export class MainComponent implements OnInit  {
   queryParameters: Pair[] = [];
   bodyForm: Pair[] = [];
 
-  constructor() {}
+  constructor(private util: UtilService) {}
 
   ngOnInit(): void {}
 
@@ -89,16 +90,19 @@ export class MainComponent implements OnInit  {
   arrayToJson(array: Pair[]) {
     let headers = [ ...array];
     if(this.selectedTypeRequest == 'POST') {
-      headers.push({'key': 'Content-Type', 'value': 'application/json'});
+      // here def Content-Type
+      if(this.bodyValue != 'form')
+        headers.push(this.util.defContentType(this.bodyValue)!);
     }
     const obj = headers.reduce((acc, { key, value}) => ({ ...acc, [key]: value}), {});
+    console.log(obj);
     return obj;
   }
 
   /**
    * @array objects to string ?key=value...&...
    */
-  queryParameterManagement(): string {
+  /*queryParameterManagement(): string {
     let urlQuerys = '';
     this.queryParameters.forEach( (item, i) => {
       if(item.key && item.value) {
@@ -110,7 +114,7 @@ export class MainComponent implements OnInit  {
     })
     console.log(`${this.url}?${urlQuerys}`);
     return urlQuerys;
-  }
+  }*/
 
   /**
    * Set response info from request
@@ -143,14 +147,13 @@ export class MainComponent implements OnInit  {
       this.loading = true;
       const startTime = window.performance.now();
 
-      fetch((this.queryParameters.length ? `${this.url}?${this.queryParameterManagement()}` : this.url), {
+      fetch(this.util.urlFormatting(this.url, this.queryParameters), {
         method: this.selectedTypeRequest,
         mode: 'cors',
         body: (this.selectedTypeRequest == 'POST') ? this.bodyJson : null,
         headers: this.arrayToJson(this.headerList)
       })
         .then( res => {
-          //console.log(res.formData.toString);
           const endTime = window.performance.now();
           this.setResponseInfo(`${(endTime - startTime).toFixed(2)} ms`, `${res.headers.get("content-length")} Bytes`, `${res.status}`,
           res.status >= 200 && res.status < 300 ? true : false);
