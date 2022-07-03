@@ -45,6 +45,7 @@ export class MainComponent implements OnInit  {
   // Content type depend of body type (json/xml/text/form)
   headerList: Pair[] = [{'key': 'Accept', 'value': '*/*'}];
   queryParameters: Pair[] = [];
+  bodyForm: Pair[] = [];
 
   constructor() {}
 
@@ -64,12 +65,9 @@ export class MainComponent implements OnInit  {
    * @param isHeader 
    * @returns 
    */
-  addItem(isHeader: boolean) {
-    if(isHeader) {
-      this.headerList.push({'key':'','value':''});
-      return;
-    }
-    this.queryParameters.push({'key':'','value':''});
+  addItem(typeForm: string) {
+    (typeForm == 'header') ? this.headerList.push({ 'key':'', 'value':'' }) : (typeForm == 'query') ?
+      this.queryParameters.push({ 'key':'', 'value':'' }) : this.bodyForm.push({ 'key':'', 'value':'' });
   }
 
   /**
@@ -78,12 +76,9 @@ export class MainComponent implements OnInit  {
    * @param isHeader 
    * @returns 
    */
-  removeItem(index: number, isHeader: boolean) {
-    if(isHeader) {
-      this.headerList.splice(index, 1);
-      return;
-    }
-    this.queryParameters.splice(index, 1);
+  removeItem(index: number, typeForm: string) {
+    (typeForm == 'header') ? this.headerList.splice(index, 1) : (typeForm == 'query') ?
+      this.queryParameters.splice(index, 1) : this.bodyForm.splice(index, 1);
   }
 
   /**

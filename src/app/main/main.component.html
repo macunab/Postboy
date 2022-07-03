@@ -125,7 +125,7 @@
                     <!-- Request Query Parameters-->
                   <div class="tab-pane fade" aria-labelledby="query-tab" id="query-params">
                     Query Parameters
-                    <button class="btn btn-outline-success" type="button" (click)="addItem(false)">Add</button>
+                    <button class="btn btn-outline-success" type="button" (click)="addItem('query')">Add</button>
                     <div class="row g-1 mt-1" *ngFor="let query of queryParameters; let i = index">
                         <div class="col">
                             <input type="text" class="form-control" id="key{{i}}" value="{{query.key}}" [(ngModel)]="query.key">
@@ -134,7 +134,7 @@
                             <input type="text" class="form-control" id="value{{i}}" value="{{query.value}}" [(ngModel)]="query.value">
                         </div>
                         <div class="col">
-                            <button type="button" (click)="removeItem(i,false)" class="btn btn-outline-danger">Remove</button>
+                            <button type="button" (click)="removeItem(i,'query')" class="btn btn-outline-danger">Remove</button>
                         </div>
                     </div>
  
@@ -142,7 +142,7 @@
                   <!-- Request Header-->
                   <div class="tab-pane fade" aria-labelledby="headers-response-tab" id="headers-response">
                     HTTP HEADERS
-                    <button class="btn btn-outline-success" type="button" (click)="addItem(true)">Add</button>
+                    <button class="btn btn-outline-success" type="button" (click)="addItem('header')">Add</button>
                     <div class="row g-1 mt-1" *ngFor="let header of headerList; let i = index">
                         <div class="col">
                             <input type="text" class="form-control" id="key{{i}}" value="{{header.key}}" [(ngModel)]="header.key">
@@ -151,7 +151,7 @@
                             <input type="text" class="form-control" id="value{{i}}" value="{{header.value}}" [(ngModel)]="header.value">
                         </div>
                         <div class="col">
-                            <button type="button" (click)="removeItem(i, true)" class="btn btn-outline-danger">Remove</button>
+                            <button type="button" (click)="removeItem(i, 'header')" class="btn btn-outline-danger">Remove</button>
                         </div>
                     </div>
                   </div>
@@ -185,6 +185,18 @@
                         </div>
                         <div class="tab-pane fade" aria-labelledby="form-tap" id="form">
                             FORM
+                            <button class="btn btn-outline-success" type="button" (click)="addItem('bodyForm')">Add</button>
+                            <div class="row g-1 mt-1" *ngFor="let form of bodyForm; let i = index">
+                                <div class="col">
+                                    <input type="text" class="form-control" id="key{{i}}" value="{{form.key}}" [(ngModel)]="form.key">
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" id="value{{i}}" value="{{form.value}}" [(ngModel)]="form.value">
+                                </div>
+                                <div class="col">
+                                    <button type="button" (click)="removeItem(i, 'bodyForm')" class="btn btn-outline-danger">Remove</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                   </div>
