@@ -57,7 +57,6 @@ export class MainComponent implements OnInit  {
    * @param value 
    */
   onCodeChanged(value: any) {
-   // this.bodyValue = value;
     this.bodyJson = value;
   }
 
@@ -95,26 +94,8 @@ export class MainComponent implements OnInit  {
         headers.push(this.util.defContentType(this.bodyValue)!);
     }
     const obj = headers.reduce((acc, { key, value}) => ({ ...acc, [key]: value}), {});
-    console.log(obj);
     return obj;
   }
-
-  /**
-   * @array objects to string ?key=value...&...
-   */
-  /*queryParameterManagement(): string {
-    let urlQuerys = '';
-    this.queryParameters.forEach( (item, i) => {
-      if(item.key && item.value) {
-        if(i>0) {
-          urlQuerys += `&${item.key}=${item.value}`;
-        } else {
-          urlQuerys += `${item.key}=${item.value}`;
-        }}
-    })
-    console.log(`${this.url}?${urlQuerys}`);
-    return urlQuerys;
-  }*/
 
   /**
    * Set response info from request
@@ -148,7 +129,6 @@ export class MainComponent implements OnInit  {
   sendRequest() {
     if(this.bodyValue == 'form') {
       let formData = new FormData();
-      console.log(this.bodyForm);
       this.bodyForm.forEach(value => {
         formData.append(value.key, value.value);
       });
@@ -172,12 +152,10 @@ export class MainComponent implements OnInit  {
           return res.json();
         })
         .catch(error => {
-          console.log(error);
           this.setResponseInfo('0ms', '0 Bytes', 'ERROR', false);
         })
         .then( res => {
           this.loading = false;
-          console.log(res);
           this.responseData = res;
         });
   }
