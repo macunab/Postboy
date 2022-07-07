@@ -14,6 +14,20 @@ export class MainComponent implements OnInit  {
   typeRequest: string[] = ['POST','GET', 'PUT', 'PATH', 'DELETE'];
   selectedTypeRequest: string = 'POST';
   url: string = '';
+
+
+  // Code editor conf
+  codeModelXml: CodeModel = {
+    language: 'xml',
+    uri: 'main.xml',
+    value: '',
+    dependencies: [
+      '@types/node',
+      '@ngstack/translate', 
+      '@ngstack/code-editor'
+    ]
+  }
+
   theme = 'vs';
   codeModel: CodeModel = {
     language: 'json',
@@ -25,7 +39,9 @@ export class MainComponent implements OnInit  {
       '@ngstack/code-editor'
     ]
   };
+  xmlEditor: boolean = true;
   options = {
+    automaticLayout: true,
     lineNumbers: true,
     minimap: {
       enabled: false
@@ -124,6 +140,9 @@ export class MainComponent implements OnInit  {
    */
   setBody(value: string) {
     this.bodyValue = value;
+    if(value == 'xml') {
+      this.xmlEditor = false;
+    }
   }
 
   sendRequest() {
