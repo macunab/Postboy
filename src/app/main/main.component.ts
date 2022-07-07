@@ -137,12 +137,23 @@ export class MainComponent implements OnInit  {
     });
   }
 
+  /**
+   * si el body es de tipo form field se setea el body content como formData
+   * @param value 
+   */
   setBody(value: string) {
     this.bodyValue = value;
-    console.log(this.bodyValue);
   }
 
   sendRequest() {
+    if(this.bodyValue == 'form') {
+      let formData = new FormData();
+      console.log(this.bodyForm);
+      this.bodyForm.forEach(value => {
+        formData.append(value.key, value.value);
+      });
+      this.bodyJson = formData;
+    }
     this.responseHeaders = [];
       this.loading = true;
       const startTime = window.performance.now();
