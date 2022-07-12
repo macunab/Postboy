@@ -39,7 +39,7 @@ export class MainComponent implements OnInit  {
       '@ngstack/code-editor'
     ]
   };
-  xmlEditor: boolean = true;
+
   options = {
     automaticLayout: true,
     lineNumbers: true,
@@ -140,9 +140,6 @@ export class MainComponent implements OnInit  {
    */
   setBody(value: string) {
     this.bodyValue = value;
-    if(value == 'xml') {
-      this.xmlEditor = false;
-    }
   }
 
   sendRequest() {
@@ -168,6 +165,7 @@ export class MainComponent implements OnInit  {
           this.setResponseInfo(`${(endTime - startTime).toFixed(2)} ms`, `${res.headers.get("content-length")} Bytes`, `${res.status}`,
           res.status >= 200 && res.status < 300 ? true : false);
           this.getResponseHeaderList(res);
+          console.log(`COOKIES ${res.headers.get('set-cookie')}`);
           return res.json();
         })
         .catch(error => {
